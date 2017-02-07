@@ -36,3 +36,9 @@ VERY IMPORTANT: DO NOT INCLUDE PERIODS(.), COLONS(:), OR BACKSLASHES(\) IN YOUR 
 feel free to send me questions/suggestions or tell me how much of a piece of shit this program is
 both are acceptable and understandable~
 
+/////////////////////////////////////////
+
+changelog:
+v2-
+added adjustors to image size and adjustors for positioning of image elements
+
