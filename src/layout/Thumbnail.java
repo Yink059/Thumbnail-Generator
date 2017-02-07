@@ -104,7 +104,7 @@ public class Thumbnail {
 		if (!(rightI.getName().toString().equals(""))) {
 			g.setFont(new Font(font, Font.PLAIN, Integer.parseInt(rightF)));
 			printString(rightP, imgR.getWidth(null), ((image.getWidth(null) / 4) * 3) - (imgR.getWidth(null) / 2) + d2,
-					(image.getHeight(null) / 2) + (imgR.getHeight(null) / 2) + 55 - r2, g);
+					(image.getHeight(null) / 2) + (imgL.getHeight(null) / 2) + 55 - r2, g);
 		}
 
 		g.setFont(new Font(font, Font.PLAIN, (int) Integer.parseInt(eventF)));
@@ -188,7 +188,7 @@ public class Thumbnail {
 		if (!(rightI.getName().toString().equals(""))) {
 			g.setFont(new Font(font, Font.PLAIN, Integer.parseInt(rightF)));
 			printString(rightP, imgR.getWidth(null), ((image.getWidth(null) / 4) * 3) - (imgR.getWidth(null) / 2) + d2,
-					(image.getHeight(null) / 2) + (imgR.getHeight(null) / 2) + 55 - r2, g);
+					(image.getHeight(null) / 2) + (imgL.getHeight(null) / 2) + 55 - r2, g);
 		}
 
 		g.setFont(new Font(font, Font.PLAIN, (int) Integer.parseInt(eventF)));
