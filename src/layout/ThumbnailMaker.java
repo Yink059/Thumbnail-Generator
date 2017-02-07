@@ -45,7 +45,7 @@ public class ThumbnailMaker extends JPanel {
 		rightScale = new TextField("100", 3);
 		eventSize = new TextField("115", 3);
 		roundSize = new TextField("90", 3);
-		moveScale = new TextField("1", 3);
+		moveScale = new TextField("10", 3);
 		font = new TextField("Helvetica", 20);
 		fc = new JFileChooser();
 		fc.setCurrentDirectory(new File("yinkTN"));
