@@ -10,11 +10,15 @@ import javax.imageio.ImageIO;
 
 public class Thumbnail {
 
-	String leftP, rightP, event, round, leftF, rightF, eventF, roundF, font;
+	String leftP, rightP, event, round, leftF, rightF, eventF, roundF, font, leftSc, rightSc, switchL;
+	Integer distance, rise, distance2, rise2,distance3,rise3;
+	String moveSc;
 
 	File background;
 	File leftI;
 	File rightI;
+	
+
 	File overlayI;
 
 	public Thumbnail() {
@@ -38,69 +42,76 @@ public class Thumbnail {
 		// int h = image1.getHeight();
 		BufferedImage combined = new BufferedImage(1280, 720, BufferedImage.TYPE_INT_ARGB);
 		double width, height;
-		Integer n;
+		Integer n, scaleL, scaleR;
 		Image imgL = null, imgR = null;
-
+		scaleL = Integer.parseInt(leftSc);
+		scaleR = Integer.parseInt(rightSc);
+		Integer d = distance;
+		Integer r = rise;
+		Integer d2 = distance2;
+		Integer r2 = rise2;
+		Integer d3 = distance3;
+		Integer r3 = rise3;
+		
 		Graphics g = combined.getGraphics();
 		g.setFont(new Font(font, Font.PLAIN, Integer.parseInt(leftF)));
 		g.drawImage(image, 0, 0, null);
 
 		// left image
-		if (!(leftI.getName().toString().equals(""))){
+		if (!(leftI.getName().toString().equals(""))) {
 			left = ImageIO.read(leftI);
-			height = (double) left.getHeight();
-			width = (double) left.getWidth();
+			height = (double) (left.getHeight());
+			width = (double) (left.getWidth());
 			if (width >= height) {
-				n = (int) (height * (400 / width));
-				imgL = left.getScaledInstance(400, n, BufferedImage.SCALE_SMOOTH);
+				n = (int) (height * ((400 + scaleL) / width));
+				imgL = left.getScaledInstance((400 + scaleL), n, BufferedImage.SCALE_SMOOTH);
 			} else {
-				n = (int) (width * (375 / height));
-				imgL = left.getScaledInstance(n, 375, BufferedImage.SCALE_SMOOTH);
+				n = (int) (width * ((375 + scaleL) / height));
+				imgL = left.getScaledInstance(n, (375 + scaleL), BufferedImage.SCALE_SMOOTH);
 			}
-			g.drawImage(imgL, (image.getWidth(null) / 4) - (imgL.getWidth(null) / 2),
-					(image.getHeight(null) / 2) - (imgL.getHeight(null) / 2) - 25, null);
-			
+			g.drawImage(imgL, (image.getWidth(null) / 4) - (imgL.getWidth(null) / 2) - d,
+					(image.getHeight(null) / 2) - (imgL.getHeight(null) / 2) - 25 - r, null);
+
 		}
 
 		// right image
-		if (!(rightI.getName().toString().equals(""))){
+		if (!(rightI.getName().toString().equals(""))) {
 			right = ImageIO.read(rightI);
 			height = right.getHeight();
 			width = right.getWidth();
 			if (width >= height) {
-				n = (int) (height * (400 / width));
-				imgR = right.getScaledInstance(400, n, BufferedImage.SCALE_SMOOTH);
+				n = (int) (height * ((400 + scaleR) / width));
+				imgR = right.getScaledInstance((400 + scaleR), n, BufferedImage.SCALE_SMOOTH);
 			} else {
-				n = (int) (width * (375 / height));
-				imgR = right.getScaledInstance(n, 375, BufferedImage.SCALE_SMOOTH);
+				n = (int) (width * ((375 + scaleR) / height));
+				imgR = right.getScaledInstance(n, (375 + scaleR), BufferedImage.SCALE_SMOOTH);
 			}
-			g.drawImage(imgR, ((image.getWidth(null) / 4) * 3) - (imgR.getWidth(null) / 2),
-					(image.getHeight(null) / 2) - (imgR.getHeight(null) / 2) - 25, null);
+			g.drawImage(imgR, ((image.getWidth(null) / 4) * 3) - (imgR.getWidth(null) / 2) + d,
+					(image.getHeight(null) / 2) - (imgR.getHeight(null) / 2) - 25 - r, null);
 		}
-		
-		if (!(overlayI.getName().toString().equals(""))){
+
+		if (!(overlayI.getName().toString().equals(""))) {
 			overlay = ImageIO.read(overlayI);
 			g.drawImage(overlay.getScaledInstance(1280, 720, BufferedImage.SCALE_SMOOTH), 0, 0, null);
 		}
-		
-		if (!(leftI.getName().toString().equals(""))){
-		g.setFont(new Font(font, Font.PLAIN, Integer.parseInt(leftF)));
-		printString(leftP, imgL.getWidth(null), (image.getWidth(null) / 4) - (imgL.getWidth(null) / 2),
-				(image.getHeight(null) / 2) + (imgL.getHeight(null) / 2) + 55, g);
+
+		if (!(leftI.getName().toString().equals(""))) {
+			g.setFont(new Font(font, Font.PLAIN, Integer.parseInt(leftF)));
+			printString(leftP, imgL.getWidth(null), (image.getWidth(null) / 4) - (imgL.getWidth(null) / 2) - d2,
+					(image.getHeight(null) / 2) + (imgL.getHeight(null) / 2) + 55 - r2, g);
 		}
-		
-		if (!(rightI.getName().toString().equals(""))){
-		g.setFont(new Font(font, Font.PLAIN, Integer.parseInt(rightF)));
-		printString(rightP, imgR.getWidth(null), ((image.getWidth(null) / 4) * 3) - (imgR.getWidth(null) / 2),
-				(image.getHeight(null) / 2) + (imgR.getHeight(null) / 2) + 55, g);
+
+		if (!(rightI.getName().toString().equals(""))) {
+			g.setFont(new Font(font, Font.PLAIN, Integer.parseInt(rightF)));
+			printString(rightP, imgR.getWidth(null), ((image.getWidth(null) / 4) * 3) - (imgR.getWidth(null) / 2) + d2,
+					(image.getHeight(null) / 2) + (imgR.getHeight(null) / 2) + 55 - r2, g);
 		}
-		
-		
+
 		g.setFont(new Font(font, Font.PLAIN, (int) Integer.parseInt(eventF)));
-		printString(event, 0, image.getWidth(null) / 2, (image.getHeight(null) / 5), g);
-		
+		printString(event, 0, image.getWidth(null) / 2, (image.getHeight(null) / 5) - d3 - r3, g);
+
 		g.setFont(new Font(font, Font.PLAIN, (int) Integer.parseInt(roundF)));
-		printString(round, 0, image.getWidth(null) / 2, (image.getHeight(null) / 17) * 16 + 25, g);
+		printString(round, 0, image.getWidth(null) / 2, (image.getHeight(null) / 17) * 16 + 25 + d3 - r3, g);
 
 		String name = "" + event + " " + round + " ft " + leftP + " vs " + rightP + ".png";
 		ImageIO.write(combined, "PNG", new File("yinkTN\\saved", name));
@@ -115,69 +126,76 @@ public class Thumbnail {
 		// int h = image1.getHeight();
 		BufferedImage combined = new BufferedImage(1280, 720, BufferedImage.TYPE_INT_ARGB);
 		double width, height;
-		Integer n;
+		Integer n, scaleL, scaleR;
 		Image imgL = null, imgR = null;
-
+		scaleL = Integer.parseInt(leftSc);
+		scaleR = Integer.parseInt(rightSc);
+		Integer d = distance;
+		Integer r = rise;
+		Integer d2 = distance2;
+		Integer r2 = rise2;
+		Integer d3 = distance3;
+		Integer r3 = rise3;
+		
 		Graphics g = combined.getGraphics();
 		g.setFont(new Font(font, Font.PLAIN, Integer.parseInt(leftF)));
 		g.drawImage(image, 0, 0, null);
 
 		// left image
-		if (!(leftI.getName().toString().equals(""))){
+		if (!(leftI.getName().toString().equals(""))) {
 			left = ImageIO.read(leftI);
-			height = (double) left.getHeight();
-			width = (double) left.getWidth();
+			height = (double) (left.getHeight());
+			width = (double) (left.getWidth());
 			if (width >= height) {
-				n = (int) (height * (400 / width));
-				imgL = left.getScaledInstance(400, n, BufferedImage.SCALE_SMOOTH);
+				n = (int) (height * ((400 + scaleL) / width));
+				imgL = left.getScaledInstance((400 + scaleL), n, BufferedImage.SCALE_SMOOTH);
 			} else {
-				n = (int) (width * (375 / height));
-				imgL = left.getScaledInstance(n, 375, BufferedImage.SCALE_SMOOTH);
+				n = (int) (width * ((375 + scaleL) / height));
+				imgL = left.getScaledInstance(n, (375 + scaleL), BufferedImage.SCALE_SMOOTH);
 			}
-			g.drawImage(imgL, (image.getWidth(null) / 4) - (imgL.getWidth(null) / 2),
-					(image.getHeight(null) / 2) - (imgL.getHeight(null) / 2) - 25, null);
-			
+			g.drawImage(imgL, (image.getWidth(null) / 4) - (imgL.getWidth(null) / 2) - d,
+					(image.getHeight(null) / 2) - (imgL.getHeight(null) / 2) - 25 - r, null);
+
 		}
 
 		// right image
-		if (!(rightI.getName().toString().equals(""))){
+		if (!(rightI.getName().toString().equals(""))) {
 			right = ImageIO.read(rightI);
 			height = right.getHeight();
 			width = right.getWidth();
 			if (width >= height) {
-				n = (int) (height * (400 / width));
-				imgR = right.getScaledInstance(400, n, BufferedImage.SCALE_SMOOTH);
+				n = (int) (height * ((400 + scaleR) / width));
+				imgR = right.getScaledInstance((400 + scaleR), n, BufferedImage.SCALE_SMOOTH);
 			} else {
-				n = (int) (width * (375 / height));
-				imgR = right.getScaledInstance(n, 375, BufferedImage.SCALE_SMOOTH);
+				n = (int) (width * ((375 + scaleR) / height));
+				imgR = right.getScaledInstance(n, (375 + scaleR), BufferedImage.SCALE_SMOOTH);
 			}
-			g.drawImage(imgR, ((image.getWidth(null) / 4) * 3) - (imgR.getWidth(null) / 2),
-					(image.getHeight(null) / 2) - (imgR.getHeight(null) / 2) - 25, null);
+			g.drawImage(imgR, ((image.getWidth(null) / 4) * 3) - (imgR.getWidth(null) / 2) + d,
+					(image.getHeight(null) / 2) - (imgR.getHeight(null) / 2) - 25 - r, null);
 		}
-		
-		if (!(overlayI.getName().toString().equals(""))){
+
+		if (!(overlayI.getName().toString().equals(""))) {
 			overlay = ImageIO.read(overlayI);
 			g.drawImage(overlay.getScaledInstance(1280, 720, BufferedImage.SCALE_SMOOTH), 0, 0, null);
 		}
-		
-		if (!(leftI.getName().toString().equals(""))){
-		g.setFont(new Font(font, Font.PLAIN, Integer.parseInt(leftF)));
-		printString(leftP, imgL.getWidth(null), (image.getWidth(null) / 4) - (imgL.getWidth(null) / 2),
-				(image.getHeight(null) / 2) + (imgL.getHeight(null) / 2) + 55, g);
+
+		if (!(leftI.getName().toString().equals(""))) {
+			g.setFont(new Font(font, Font.PLAIN, Integer.parseInt(leftF)));
+			printString(leftP, imgL.getWidth(null), (image.getWidth(null) / 4) - (imgL.getWidth(null) / 2) - d2,
+					(image.getHeight(null) / 2) + (imgL.getHeight(null) / 2) + 55 - r2, g);
 		}
-		
-		if (!(rightI.getName().toString().equals(""))){
-		g.setFont(new Font(font, Font.PLAIN, Integer.parseInt(rightF)));
-		printString(rightP, imgR.getWidth(null), ((image.getWidth(null) / 4) * 3) - (imgR.getWidth(null) / 2),
-				(image.getHeight(null) / 2) + (imgR.getHeight(null) / 2) + 55, g);
+
+		if (!(rightI.getName().toString().equals(""))) {
+			g.setFont(new Font(font, Font.PLAIN, Integer.parseInt(rightF)));
+			printString(rightP, imgR.getWidth(null), ((image.getWidth(null) / 4) * 3) - (imgR.getWidth(null) / 2) + d2,
+					(image.getHeight(null) / 2) + (imgR.getHeight(null) / 2) + 55 - r2, g);
 		}
-		
-		
+
 		g.setFont(new Font(font, Font.PLAIN, (int) Integer.parseInt(eventF)));
-		printString(event, 0, image.getWidth(null) / 2, (image.getHeight(null) / 5), g);
-		
+		printString(event, 0, image.getWidth(null) / 2, (image.getHeight(null) / 5) - d3 - r3, g);
+
 		g.setFont(new Font(font, Font.PLAIN, (int) Integer.parseInt(roundF)));
-		printString(round, 0, image.getWidth(null) / 2, (image.getHeight(null) / 17) * 16 + 25, g);
+		printString(round, 0, image.getWidth(null) / 2, (image.getHeight(null) / 17) * 16 + 25 + d3 - r3, g);
 
 		String name = "temp.png";
 		ImageIO.write(combined, "PNG", new File("yinkTN\\saved", name));
@@ -300,5 +318,77 @@ public class Thumbnail {
 
 	public void setOverlay(File overlayI) {
 		this.overlayI = overlayI;
+	}
+
+	public String getLeftSc() {
+		return leftSc;
+	}
+
+	public void setLeftSc(String leftSc) {
+		this.leftSc = leftSc;
+	}
+
+	public String getRightSc() {
+		return rightSc;
+	}
+
+	public void setRightSc(String rightSc) {
+		this.rightSc = rightSc;
+	}
+
+	public Integer getDistance() {
+		return distance;
+	}
+
+	public void setDistance(Integer distance) {
+		this.distance = distance;
+	}
+
+	public Integer getRise() {
+		return rise;
+	}
+
+	public void setRise(Integer rise) {
+		this.rise = rise;
+	}
+	
+	public String getMoveSc() {
+		return moveSc;
+	}
+
+	public Integer getDistance2() {
+		return distance2;
+	}
+
+	public Integer getDistance3() {
+		return distance3;
+	}
+
+	public void setDistance3(Integer distance3) {
+		this.distance3 = distance3;
+	}
+
+	public Integer getRise3() {
+		return rise3;
+	}
+
+	public void setRise3(Integer rise3) {
+		this.rise3 = rise3;
+	}
+
+	public void setDistance2(Integer distance2) {
+		this.distance2 = distance2;
+	}
+
+	public Integer getRise2() {
+		return rise2;
+	}
+
+	public void setRise2(Integer rise2) {
+		this.rise2 = rise2;
+	}
+
+	public void setMoveSc(String moveSc) {
+		this.moveSc = moveSc;
 	}
 }
